@@ -1,0 +1,7 @@
+- hosts: s1
+  remote_user: root 
+  tasks:
+  - service: name=nginx state=restarted
+    sudo: yes
+
+  - apt: name=sl state=present

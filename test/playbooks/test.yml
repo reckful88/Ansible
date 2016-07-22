@@ -1,0 +1,5 @@
+---
+- hosts: s1
+  tasks:
+  - name: install gcc
+    apt: name=gcc state=present
