@@ -1,0 +1,21 @@
+---
+- hosts: s1
+  remote_user: root
+  tasks:
+  - name: install nginx
+    apt: name=nginx state=present
+    tags:
+    - install nginx
+  - name: nginx conf
+    copy: src=/Users/lifangcheng/ansible_env/test/www dest=/etc/nginx/sites-available/www
+    notify:
+    - restart nginx
+  - name: start nginx
+    service: name=nginx state=started
+  - name: stop nginx
+    service: name=nginx state=stopped
+    tags:
+    - stop
+  handlers:
+  - name: restart nginx
+    service: name=nginx state=restarted

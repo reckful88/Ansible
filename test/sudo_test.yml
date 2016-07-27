@@ -1,0 +1,8 @@
+---
+- hosts: s1
+  remote_user: reckful88
+  sudo: yes
+  sudo_user: root
+  tasks:
+  - name: install httpd
+    apt: name=apache2 state=present

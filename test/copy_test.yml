@@ -1,0 +1,12 @@
+---
+- hosts: s1
+  remote_user: root
+  tasks:
+  - name: copy some files
+    copy: src=/Users/lifangcheng/ansible_env/test/file1 dest=/tmp/file1 backup=yes
+  - name: copy file2
+    copy: src=/Users/lifangcheng/ansible_env/test/file2 dest=/tmp/file2 backup=yes
+  - name: copy file3
+    copy: src=/Users/lifangcheng/ansible_env/test/file3 dest=/tmp/file3 backup=yes
+  - name: copy diretory
+    copy: src=/Users/lifangcheng/ansible_env/test/file/ dest=/tmp/file group=reckful88 owner=lifangcheng mode=755 backup=yes

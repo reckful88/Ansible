@@ -1,0 +1,4 @@
+- hosts: 101.201.223.171
+  remote_user: root
+  roles:
+  - web
