@@ -1,4 +1,10 @@
-- hosts: 101.201.223.171
+- hosts: s1
   remote_user: root
   roles:
   - web
+  - db
+
+  #- hosts: s1
+  #  remote_user: root
+  #roles:
+  #- db

@@ -1,0 +1,30 @@
+server {
+	listen	80;
+	server_name www.devspace.cn.com;
+	root	/var/www/html/index.html;
+	index	index.php index.html index.htm;
+	server_tokens	off;
+
+	location / {
+		 if (!-e $request_filename){  
+           		rewrite (.*) /index.php last;  
+        	}  
+	}
+
+	location ~ \.php$ {
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        #       # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+        #
+        #       # With php5-cgi alone:
+        #       fastcgi_pass 127.0.0.1:9000;
+        #       # With php5-fpm:
+                fastcgi_pass unix:/var/run/php5-fpm.sock;
+                fastcgi_index index.php;
+                include fastcgi_params;
+        }
+
+	error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+               root /usr/share/nginx/www;
+        }
+}
