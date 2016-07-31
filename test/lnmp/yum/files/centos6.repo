@@ -1,0 +1,5 @@
+[centos6]
+name=centos6
+baseurl=ftp://192.168.20.139/centos6.6
+enabled=1
+gpgcheck=0

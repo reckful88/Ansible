@@ -1,0 +1,11 @@
+---
+- hosts: lnmp
+  user: root
+  remote_user: root
+  gather_facts: false
+  roles:
+  - yum
+  - php
+  - mysql
+  - nginx
+  - delete

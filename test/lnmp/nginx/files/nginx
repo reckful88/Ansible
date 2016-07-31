@@ -1,0 +1,54 @@
+#!/bin/bash
+#以服务方式启动nginx
+nginxd=/usr/local/nginx/sbin/nginx
+nginx_config=/usr/local/nginx/conf/nginx.conf
+nginx_pid=/usr/local/nginx/logs/nginx.pid
+
+status=0
+
+start(){
+	if [ -e $nginx_pid ];then
+		echo "nginx already running ...."
+		exit
+	fi
+	echo "Starting nginx!"
+	$nginxd -c $nginx_config
+}
+
+stop(){
+	if [ ! -e $nginx_pid ];then
+		echo "nginx already stoped ...."
+	else
+		echo "Stoping nginx !"
+		$nginxd -s stop	&>/dev/null
+	fi
+}
+
+reload(){
+	if [ ! -e $nginx_pid ];then
+		echo "nginx already stoped ...."
+		exit
+	else
+		echo "Reloading nginx !"
+		$nginxd -s reload
+	fi
+}
+
+case "$1" in
+start)
+	start
+	;;
+stop)
+	stop
+	;;
+reload)
+	reload
+	;;
+restart)
+	stop
+	sleep 5
+	start
+	;;
+*)
+	echo "Usage: nginx {start|stop|restart|reload|help}"
+esac

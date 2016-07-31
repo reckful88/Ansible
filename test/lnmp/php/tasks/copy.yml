@@ -1,0 +1,6 @@
+- name: "拷贝PHP源码包"
+  copy: src={{php_tar}} dest=/tmp/
+- name: "拷贝PHP自动安装脚本"
+  copy: src=php_install.sh dest=/tmp/ mode=0755
+- name: "拷贝php-fpm"
+  copy: src=php-fpm dest=/etc/init.d/ mode=0755

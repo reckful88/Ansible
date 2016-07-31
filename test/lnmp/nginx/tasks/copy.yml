@@ -1,0 +1,9 @@
+- name: "拷贝nginx源码包"
+  copy: src={{nginx_tar}} dest=/tmp/
+- name: "拷贝nginx_install.sh,nginx_cpu.sh nginx启动脚本"
+  copy: src={{item}} dest=/tmp/
+  with_items:
+  - nginx_install.sh
+  - nginx_cpu.sh
+- name: "拷贝nginx启动脚本"
+  copy: src=nginx dest=/etc/init.d/ mode=0755

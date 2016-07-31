@@ -1,0 +1,4 @@
+- name: "删除tmp目录下的文件"
+  shell: rm -rf /tmp/*
+- name: "删除src目录下的文件"
+  shell: rm -rf /usr/local/src/*

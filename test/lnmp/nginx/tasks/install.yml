@@ -1,0 +1,26 @@
+- name: "添加www用户"
+  user: name=www system=yes shell=/sbin/nologin
+- name: "安装依赖包"
+  yum: name={{item}} state=present
+  with_items:
+   - gcc
+   - gcc-c++
+   - pcre-devel
+   - openssl-devel
+- name: "执行nginx自动安装脚本"
+  shell: /bin/bash /tmp/nginx_install.sh
+- name: "拷贝nginx.conf"
+  copy: src=nginx.conf dest=/usr/local/nginx/conf/
+- name: "执行nginx_cpu.sh"
+  shell: /bin/bash /tmp/nginx_cpu.sh
+- name: "删除html目录下的文件"
+  file: path=/usr/local/nginx/html/{{item}} state=absent
+  with_items:
+   - index.html
+   - 50x.html
+- name: "拷贝测试页"
+  copy: src=index.php dest=/usr/local/nginx/html/ owner=www group=www
+- name: "启动nginx"
+  shell: service nginx start
+- name: "添加开机启动nginx"
+  shell: echo "service nginx start" >> /etc/rc.local

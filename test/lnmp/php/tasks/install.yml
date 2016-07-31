@@ -1,0 +1,15 @@
+- name: "安装依赖包"
+  yum: name={{item}} state=present
+  with_items:
+   - gcc
+   - gcc-c++
+   - openssl-devel
+   - libxml2-devel
+   - libcurl-devel
+   - libjpeg-devel
+   - libpng-devel
+   - freetype-devel
+   - php-mysql
+- name: "执行php_install.sh脚本"
+  shell: /bin/bash /tmp/php_install.sh
+  notify: restart php-fpm

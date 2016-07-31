@@ -1,0 +1,34 @@
+- name: "安装mysql"
+  yum: name={{ item }} state=present
+  with_items:
+   - mysql
+   - mysql-server
+- name: "创建挂载点"
+  file: path={{ item }} state=directory
+  with_items:
+   - /mydata/logs
+   - /mydata/data
+- name: "拷贝分区脚本"
+  copy: src=fdisk.sh dest=/tmp/ mode=0755
+- name: "执行分区脚本"
+  shell: /bin/bash /tmp/fdisk.sh
+- name: "格式化分区"
+  filesystem: fstype=ext4 dev={{ item }}
+  with_items:
+   - /dev/sdb1
+   - /dev/sdb2
+- name: "挂载分区"
+  mount: name={{ item.name }} src={{ item.src }} fstype=ext4 state=present
+  with_items:
+   - { name: '/mydata/logs', src: '/dev/sdb1' }
+   - { name: '/mydata/data', src: '/dev/sdb2' }
+- name: "挂载fstab所有分区"
+  shell: mount -a
+- name: "修改mydata属主和属组"
+  shell: chown -R mysql.mysql /mydata/
+- name: "拷贝my.cnf"
+  copy: src=my.cnf dest=/etc/my.cnf
+- name: "启动mysql"
+  service: name=mysqld enabled=yes state=started
+- name: "修改mysql密码"
+  shell: mysqladmin -uroot password 123

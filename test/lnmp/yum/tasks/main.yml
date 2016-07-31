@@ -1,0 +1,10 @@
+- name: "备份yum源"
+  shell: /bin/gzip /etc/yum.repos.d/*.repo
+- name: "拷贝yum文件"
+  copy: src={{repo}} dest=/etc/yum.repos.d/ owner=root group=root mode=0644
+- name: "清空yum缓存"
+  shell: /usr/bin/yum clean all
+- name: "安装ntpdate"
+  yum: name=ntpdate state=present
+- name: "添加同步时间计划任务"
+  cron: name="sync time" minute="*/5" job="/usr/sbin/ntpdate 192.168.20.139     &>/dev/null"
